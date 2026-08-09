@@ -1,16 +1,80 @@
-# React + Vite
+# 🛒 Shopify Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern and responsive Shopify-style Admin Dashboard and Customer Shopping Platform built using React.js.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+https://shopify-dashboard-two-theta.vercel.app
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 👨‍💼 Admin Dashboard
+- Dashboard overview
+- Product management
+- Order management
+- Customer management
+- Analytics dashboard
+- Sales reports
+- Low stock alerts
+- Search and filtering
+- Dark mode
 
-## Expanding the Oxlint configuration
+### 🛍️ Customer Shopping
+- Customer View
+- Product search
+- Product details
+- Product quantity selection
+- Add to Cart
+- Buy Now
+- Shopping Cart
+- Checkout
+- Order placement
+- Order status tracking
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+### 📊 Analytics
+- Total sales
+- Monthly revenue
+- Total orders
+- Top products
+- Average order value
+- Revenue chart
+- Orders trend
+- Product sales distribution
+- Monthly sales report
+- CSV report export
+
+### 📱 Responsive Design
+- Desktop responsive
+- Mobile responsive
+- Tablet friendly
+- Mobile shopping experience
+
+## 🛠️ Technologies Used
+
+- React.js
+- JavaScript
+- React Router
+- Recharts
+- HTML
+- CSS
+- LocalStorage
+- GitHub
+- Vercel
+
+## 🔐 Demo Login
+
+**Email:** `admin@gmail.com`
+
+**Password:** `admin123`
+
+> Demo credentials are included only for project demonstration purposes.
+
+## 📦 Project Structure
+
+```text
+src/
+├── Components/
+├── Pages/
+├── App.jsx
+├── App.css
+└── main.jsx
