@@ -8,9 +8,21 @@ function Login() {
   const navigate = useNavigate();
 
   function handleLogin() {
-  if (email === "admin@gmail.com" && password === "admin123") {
+  if (
+    email === "admin@gmail.com" &&
+    password === "admin123"
+  ) {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("adminName", "Admin");
+    localStorage.setItem(
+      "adminEmail",
+      "admin@gmail.com"
+    );
+    localStorage.setItem(
+      "adminPassword",
+      "admin123"
+    );
+
     alert("Login Successful");
     navigate("/");
   } else {
@@ -19,7 +31,12 @@ function Login() {
 }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
+    <div
+      style={{
+        textAlign: "center",
+        marginTop: "100px",
+      }}
+    >
       <h1>Shopify Dashboard Login</h1>
 
       <input
@@ -36,7 +53,9 @@ function Login() {
         type="password"
         placeholder="Enter Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
       />
 
       <br />

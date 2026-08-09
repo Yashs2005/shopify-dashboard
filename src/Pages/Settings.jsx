@@ -2,14 +2,54 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function Settings() {
-  const [darkMode, setDarkMode] = useState(false);
+function Settings({ darkMode,setDarkMode }) {
   const [notifications, setNotifications] = useState(true);
   const [language, setLanguage] = useState("English");
   const [name, setName] = useState("Admin");
   const [email, setEmail] = useState("admin@gmail.com");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+  const savedName =
+    localStorage.getItem("adminName");
+
+  const savedEmail =
+    localStorage.getItem("adminEmail");
+
+  const savedNotifications =
+    localStorage.getItem("notifications");
+
+  const savedLanguage =
+    localStorage.getItem("language");
+
+  const savedDarkMode =
+    localStorage.getItem("darkMode");
+
+  if (savedName) {
+    setName(savedName);
+  }
+
+  if (savedEmail) {
+    setEmail(savedEmail);
+  }
+
+  if (savedNotifications !== null) {
+    setNotifications(
+      savedNotifications === "true"
+    );
+  }
+
+  if (savedLanguage) {
+    setLanguage(savedLanguage);
+  }
+
+  if (savedDarkMode !== null) {
+    setDarkMode(
+      savedDarkMode === "true"
+    );
+    }
+    }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -19,9 +59,9 @@ function Settings() {
     }
   }, [darkMode]);
 
-  function handleDarkMode() {
-    setDarkMode(!darkMode);
-  }
+function handleDarkMode() {
+  setDarkMode(!darkMode);
+}
 
   return (
     <div className="page">
@@ -56,7 +96,26 @@ function Settings() {
           }}
         />
 
-        <button>Change Password</button>
+<button
+  onClick={() => {
+    const newPassword = prompt(
+      "Enter New Password:"
+    );
+
+    if (newPassword && newPassword.length >= 4) {
+      localStorage.setItem(
+        "adminPassword",
+        newPassword
+      );
+
+      toast("✅ Password Changed Successfully!");
+    } else if (newPassword) {
+      toast("❌ Password must be at least 4 characters!");
+    }
+  }}
+>
+  Change Password
+</button>
 
         <br />
         <br />
@@ -106,14 +165,22 @@ function Settings() {
         <br />
         <br />
 
-       <button
-         onClick={() => {
-         alert("Button Working");
-         toast("✅ Settings Saved Successfully!");
-         }}
-       >
-          Save Settings
-      </button>
+<button
+  onClick={() => {
+    localStorage.setItem("adminName", name);
+    localStorage.setItem("adminEmail", email);
+    localStorage.setItem(
+      "notifications",
+      notifications
+    );
+    localStorage.setItem("language", language);
+    localStorage.setItem("darkMode", darkMode);
+
+    toast("✅ Settings Saved Successfully!");
+  }}
+>
+  Save Settings
+</button>
       </div>
     </div>
   );

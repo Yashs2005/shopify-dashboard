@@ -113,6 +113,17 @@ function Layout({ darkMode, setDarkMode }) {
        </li>
 
        <li
+          style={{
+          background:
+          location.pathname === "/customer-view"
+          ? "rgba(255,255,255,0.25)"
+          : "",
+          }}
+       >
+            <Link to="/customer-view">🛍️ Customer View</Link>
+       </li>
+
+       <li
         style={{
         background:
         location.pathname === "/analytics"

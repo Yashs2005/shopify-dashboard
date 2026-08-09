@@ -7,326 +7,681 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Dashboard({ products, loading }) {
-  const totalOrders=180;
-  const totalRevenue=250000;
-  const totalStock = products.reduce(
-    (total, product) => total + product.stock, 0 );
-
-  const lowStockProducts = products.filter(
-    (product) => product.stock < 20 );
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
-  const salesData = [
-  { name: "Jan", sales: 4000 },
-  { name: "Feb", sales: 3000 },
-  { name: "Mar", sales: 5000 },
-  { name: "Apr", sales: 4500 },
-  { name: "May", sales: 6000 },
-  { name: "Jun", sales: 5500 },
-  ];
-  
-  const notifications = [
-  "📦 2 products are low in stock",
-  "🛒 5 new orders received",
-  "👤 3 new customers registered",
-  "💰 Revenue increased by 12% this month",
-  ];
+  const [orders, setOrders] = useState([]);
 
-  const navigate = useNavigate();
+  // Load real orders
+  useEffect(() => {
+    const savedOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
+
+    setOrders(savedOrders);
+  }, []);
+
   if (loading) {
-  return <h2>Loading Dashboard...</h2>;
-   }
+    return (
+      <div style={{ padding: "30px" }}>
+        <h2>Loading Dashboard...</h2>
+      </div>
+    );
+  }
+
+  // -------------------------
+  // DASHBOARD CALCULATIONS
+  // -------------------------
+
+  const totalOrders = orders.length;
+
+  const totalRevenue = orders.reduce(
+    (total, order) =>
+      total + Number(order.amount || 0),
+    0
+  );
+
+  const totalStock = products.reduce(
+    (total, product) =>
+      total + Number(product.stock || 0),
+    0
+  );
+
+  const lowStockProducts = products.filter(
+    (product) => Number(product.stock) < 20
+  );
+
+  // Customers
+  const customers = [
+    {
+      name: "Rahul Sharma",
+      email: "rahul@gmail.com",
+    },
+    {
+      name: "Priya Patil",
+      email: "priya@gmail.com",
+    },
+    {
+      name: "Amit Kumar",
+      email: "amit@gmail.com",
+    },
+  ];
+
+  const totalCustomers = customers.length;
+
+  // Search products
+  const filteredProducts = products.filter((product) =>
+    product.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  // -------------------------
+  // SALES DATA
+  // -------------------------
+
+  const salesData = [
+    { name: "Jan", sales: 4000 },
+    { name: "Feb", sales: 3000 },
+    { name: "Mar", sales: 5000 },
+    { name: "Apr", sales: 4500 },
+    { name: "May", sales: 6000 },
+    { name: "Jun", sales: 5500 },
+  ];
+
+  // -------------------------
+  // NOTIFICATIONS
+  // -------------------------
+
+  const notifications = [
+    `📦 ${lowStockProducts.length} products are low in stock`,
+    `🛒 ${totalOrders} total orders received`,
+    `👤 ${totalCustomers} customers registered`,
+    `💰 Total revenue: ₹${totalRevenue.toLocaleString()}`,
+  ];
+
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>
-         Welcome to Shopify Admin Panel. Manage your products, orders and customers here.
-      </p>
+    <div
+      style={{
+        padding: "25px",
+        background: "#f3f3f3",
+        minHeight: "100vh",
+      }}
+    >
+      {/* HEADER */}
 
-      <h2 style={{ marginTop: "20px" }}>Notifications</h2>
-
-       <ul
+      <div
         style={{
-        background: "#fff3cd",
-        padding: "15px",
-        borderRadius: "10px",
-        marginBottom: "20px",
+          background: "#131921",
+          color: "white",
+          padding: "25px",
+          borderRadius: "12px",
+          marginBottom: "25px",
         }}
-       >
-        {notifications.map((item, index) => (
-          <li key={index}>{item}</li>
-           ))}
-      </ul>
+      >
+        <h1 style={{ margin: 0 }}>
+          📊 Dashboard
+        </h1>
 
-      <div className="cards">
-        <div className="card">
-          <h3>Total Products</h3>
+        <p
+          style={{
+            marginTop: "8px",
+            color: "#ddd",
+          }}
+        >
+          Welcome to Shopify Admin Panel. Manage
+          your products, orders and customers here.
+        </p>
+      </div>
+
+      {/* NOTIFICATIONS */}
+
+      <h2>🔔 Notifications</h2>
+
+      <div
+        style={{
+          background: "#fff3cd",
+          padding: "18px",
+          borderRadius: "10px",
+          marginBottom: "25px",
+        }}
+      >
+        {notifications.map((item, index) => (
+          <p
+            key={index}
+            style={{
+              margin: "8px 0",
+            }}
+          >
+            {item}
+          </p>
+        ))}
+      </div>
+
+      {/* STAT CARDS */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "20px",
+          marginBottom: "30px",
+        }}
+      >
+        {/* PRODUCTS */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>📦 Total Products</p>
           <h2>{products.length}</h2>
         </div>
 
-        <div className="card">
-          <h3>Total Orders</h3>
+        {/* ORDERS */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>🛒 Total Orders</p>
           <h2>{totalOrders}</h2>
         </div>
 
-        <div className="card">
-          <h3>Customers</h3>
-          <h2>95</h2>
+        {/* CUSTOMERS */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>👥 Customers</p>
+          <h2>{totalCustomers}</h2>
         </div>
 
-        <div className="card">
-          <h3>Revenue</h3>
-          <h2>{totalRevenue}</h2>
+        {/* REVENUE */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>💰 Revenue</p>
+          <h2>
+            ₹{totalRevenue.toLocaleString()}
+          </h2>
         </div>
 
-        <div className="card">
-          <h3>Total Stock</h3>
+        {/* STOCK */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>📦 Total Stock</p>
           <h2>{totalStock}</h2>
         </div>
 
-        <div className="card">
-          <h3>Low Stock</h3>
-          <h2>{lowStockProducts.length}</h2>
+        {/* LOW STOCK */}
+
+        <div
+          style={{
+            background: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow:
+              "0 2px 8px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p>⚠️ Low Stock</p>
+
+          <h2
+            style={{
+              color:
+                lowStockProducts.length > 0
+                  ? "#d32f2f"
+                  : "green",
+            }}
+          >
+            {lowStockProducts.length}
+          </h2>
         </div>
       </div>
 
-      <input
-        type="text"
-        placeholder="Search Product..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      {/* SEARCH */}
+
+      <div
         style={{
-          padding: "10px",
-          width: "250px",
-          marginTop: "20px",
+          background: "white",
+          padding: "20px",
+          borderRadius: "12px",
           marginBottom: "20px",
         }}
-      />
-
-      <div style={{ marginBottom: "20px" }}>
-        <button
-          style={{ marginRight: "10px" }}
-          onClick={() =>
-            alert("Go to Products page to add a new product.")
+      >
+        <input
+          type="text"
+          placeholder="🔍 Search Product..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
           }
-        >
-          Add Product
-        </button>
+          style={{
+            padding: "12px",
+            width: "100%",
+            maxWidth: "500px",
+            border: "1px solid #ccc",
+            borderRadius: "7px",
+            fontSize: "15px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
 
+      {/* QUICK BUTTONS */}
+
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          marginBottom: "25px",
+        }}
+      >
         <button
-          style={{ marginRight: "10px" }}
           onClick={() => navigate("/products")}
         >
-          View Products
+          ➕ Add / Manage Products
         </button>
 
-        <button onClick={() => window.location.reload()}>
-          Refresh
+        <button
+          onClick={() => navigate("/orders")}
+        >
+          🛒 View Orders
+        </button>
+
+        <button
+          onClick={() => navigate("/customers")}
+        >
+          👥 Customers
+        </button>
+
+        <button
+          onClick={() => navigate("/analytics")}
+        >
+          📊 Analytics
+        </button>
+
+        <button
+          onClick={() =>
+            window.location.reload()
+          }
+        >
+          🔄 Refresh
         </button>
       </div>
 
-      <h2>Recent Products</h2>
+      {/* RECENT PRODUCTS */}
 
-      <Link to="/products">
-        <button style={{ marginBottom: "15px" }}>
-          View All Products
-        </button>
-      </Link>
-
-      <table
-        border="1"
-        cellPadding="10"
-        style={{ width: "100%", marginTop: "10px" }}
+      <div
+        style={{
+          background: "white",
+          padding: "20px",
+          borderRadius: "12px",
+          marginBottom: "30px",
+          overflowX: "auto",
+        }}
       >
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Action</th> 
-          </tr>
-        </thead>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2>📦 Recent Products</h2>
 
-        <tbody>
-          {products
-            .filter((product) =>
-              product.name
-                .toLowerCase()
-                .includes(search.toLowerCase())
-            )
-            .slice(0, 5)
-            .map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
+          <Link to="/products">
+            <button>
+              View All Products
+            </button>
+          </Link>
+        </div>
 
-                <td>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    width="50"
-                    height="50"
-                    style={{ borderRadius: "8px" }}
-                  />
-                </td>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            minWidth: "700px",
+            marginTop: "15px",
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                background: "#131921",
+                color: "white",
+              }}
+            >
+              <th style={{ padding: "12px" }}>
+                ID
+              </th>
 
-                <td>
-                  <Link to={`/product/${product.id}`}>
-                    {product.name}
-                  </Link>
-                </td>
+              <th style={{ padding: "12px" }}>
+                Image
+              </th>
 
-                <td>₹{product.price}</td>
-                <td>{product.stock}</td>
-                <td>
-                   <Link to={`/product/${product.id}`}>
-                   <button>View</button>
-                   </Link>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+              <th style={{ padding: "12px" }}>
+                Product
+              </th>
+
+              <th style={{ padding: "12px" }}>
+                Price
+              </th>
+
+              <th style={{ padding: "12px" }}>
+                Stock
+              </th>
+
+              <th style={{ padding: "12px" }}>
+                Action
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredProducts
+              .slice(0, 5)
+              .map((product) => (
+                <tr
+                  key={product.id}
+                  style={{
+                    borderBottom:
+                      "1px solid #eee",
+                  }}
+                >
+                  <td style={{ padding: "12px" }}>
+                    #{product.id}
+                  </td>
+
+                  <td style={{ padding: "12px" }}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      width="55"
+                      height="55"
+                      style={{
+                        objectFit: "contain",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </td>
+
+                  <td style={{ padding: "12px" }}>
+                    <Link
+                      to={`/product/${product.id}`}
+                    >
+                      {product.name}
+                    </Link>
+                  </td>
+
+                  <td style={{ padding: "12px" }}>
+                    ₹
+                    {Number(
+                      product.price
+                    ).toLocaleString()}
+                  </td>
+
+                  <td style={{ padding: "12px" }}>
+                    <span
+                      style={{
+                        color:
+                          product.stock < 20
+                            ? "red"
+                            : "green",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {product.stock}
+                    </span>
+                  </td>
+
+                  <td style={{ padding: "12px" }}>
+                    <Link
+                      to={`/product/${product.id}`}
+                    >
+                      <button>
+                        View
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* LOW STOCK */}
+
       {lowStockProducts.length > 0 && (
-        <div style={{ marginTop: "30px" }}>
-          <h2>Low Stock Alert</h2>
+        <div
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "12px",
+            marginBottom: "30px",
+            borderLeft:
+              "5px solid #d32f2f",
+          }}
+        >
+          <h2>⚠️ Low Stock Alert</h2>
 
-          <ul>
-            {lowStockProducts.map((product) => (
-              <li key={product.id}>
-                {product.name} - Only {product.stock} left
-              </li>
-            ))}
-          </ul>
+          {lowStockProducts.map(
+            (product) => (
+              <p key={product.id}>
+                🔴 <strong>{product.name}</strong>{" "}
+                — Only {product.stock} left
+              </p>
+            )
+          )}
         </div>
       )}
 
-      <h2 style={{ marginTop: "40px" }}>Sales Analytics</h2>
+      {/* SALES ANALYTICS */}
 
-     <div style={{ width: "100%", height: 300, marginBottom: "30px" }}>
-     <ResponsiveContainer width="100%" height="100%">
-       <BarChart data={salesData}>
-       <CartesianGrid strokeDasharray="3 3" />
-       <XAxis dataKey="name" />
-       <YAxis />
-       <Tooltip />
-       <Bar dataKey="sales" fill="#3b82f6" />
-       </BarChart>
-     </ResponsiveContainer>
-    </div>
-
- <h2 style={{ marginTop: "40px" }}>Recent Activity</h2>
-
-<ul
-  style={{
-    background: "#f5f5f5",
-    padding: "20px",
-    borderRadius: "10px",
-    marginBottom: "30px",
-  }}
->
-  <li>✅ New product added: iPhone 16</li>
-  <li>🛒 Order #1005 placed by Karan</li>
-  <li>📦 Samsung S25 stock updated</li>
-  <li>👤 New customer registered: Anjali</li>
-  <li>💰 Payment received: ₹89,999</li>
-</ul>
-
- <h2 style={{ marginTop: "40px" }}>Quick Actions</h2>
-
-<div
-  style={{
-    display: "flex",
-    gap: "15px",
-    flexWrap: "wrap",
-    marginBottom: "30px",
-  }}
->
-  <button onClick={() => navigate("/products")}>
-    📦 Manage Products
-  </button>
-
-  <button onClick={() => navigate("/orders")}>
-    🛒 View Orders
-  </button>
-
-  <button onClick={() => navigate("/customers")}>
-    👥 Customers
-  </button>
-
-  <button onClick={() => navigate("/analytics")}>
-    📊 Analytics
-  </button>
-</div>
-
-      <h2 style={{ marginTop: "40px" }}>Recent Orders</h2>
-
-      <table
-        border="1"
-        cellPadding="10"
-        style={{ width: "100%", marginTop: "10px" }}
+      <div
+        style={{
+          background: "white",
+          padding: "20px",
+          borderRadius: "12px",
+          marginBottom: "30px",
+        }}
       >
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Product</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+        <h2>📈 Sales Analytics</h2>
 
-        <tbody>
-          <tr>
-            <td>#1001</td>
-            <td>Rahul</td>
-            <td>iPhone 16</td>
-            <td style={{ color: "green", fontWeight: "bold" }}>
-              Delivered
-            </td>
-          </tr>
+        <div
+          style={{
+            width: "100%",
+            height: 320,
+          }}
+        >
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+            <BarChart data={salesData}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+              />
 
-          <tr>
-            <td>#1002</td>
-            <td>Priya</td>
-            <td>Samsung S25</td>
-            <td style={{ color: "blue", fontWeight: "bold" }}>
-              Shipped
-            </td>
-          </tr>
+              <XAxis dataKey="name" />
 
-          <tr>
-            <td>#1003</td>
-            <td>Amit</td>
-            <td>OnePlus 13</td>
-            <td style={{ color: "orange", fontWeight: "bold" }}>
-              Processing
-            </td>
-          </tr>
+              <YAxis />
 
-          <tr>
-            <td>#1004</td>
-            <td>Neha</td>
-            <td>Google Pixel 10</td>
-            <td style={{ color: "green", fontWeight: "bold" }}>
-              Delivered
-            </td>
-          </tr>
+              <Tooltip />
 
-          <tr>
-            <td>#1005</td>
-            <td>Karan</td>
-            <td>Nothing Phone 4</td>
-            <td style={{ color: "red", fontWeight: "bold" }}>
-              Pending
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <Bar
+                dataKey="sales"
+                fill="#3b82f6"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* RECENT ACTIVITY */}
+
+      <div
+        style={{
+          background: "white",
+          padding: "20px",
+          borderRadius: "12px",
+          marginBottom: "30px",
+        }}
+      >
+        <h2>🕒 Recent Activity</h2>
+
+        <p>✅ New product added</p>
+        <p>🛒 New order received</p>
+        <p>📦 Product stock updated</p>
+        <p>👤 Customer activity detected</p>
+        <p>💰 Payment received</p>
+      </div>
+
+      {/* RECENT ORDERS */}
+
+      <div
+        style={{
+          background: "white",
+          padding: "20px",
+          borderRadius: "12px",
+          overflowX: "auto",
+        }}
+      >
+        <h2>🛒 Recent Orders</h2>
+
+        {orders.length === 0 ? (
+          <p>
+            No orders yet. Place an order from
+            Customer View.
+          </p>
+        ) : (
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              minWidth: "650px",
+            }}
+          >
+            <thead>
+              <tr
+                style={{
+                  background: "#131921",
+                  color: "white",
+                }}
+              >
+                <th style={{ padding: "12px" }}>
+                  Order ID
+                </th>
+
+                <th style={{ padding: "12px" }}>
+                  Customer
+                </th>
+
+                <th style={{ padding: "12px" }}>
+                  Product
+                </th>
+
+                <th style={{ padding: "12px" }}>
+                  Amount
+                </th>
+
+                <th style={{ padding: "12px" }}>
+                  Status
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {orders
+                .slice(-5)
+                .reverse()
+                .map((order) => (
+                  <tr
+                    key={order.id}
+                    style={{
+                      borderBottom:
+                        "1px solid #eee",
+                    }}
+                  >
+                    <td style={{ padding: "12px" }}>
+                      #{order.id}
+                    </td>
+
+                    <td style={{ padding: "12px" }}>
+                      {order.customer}
+                    </td>
+
+                    <td style={{ padding: "12px" }}>
+                      {order.product}
+                    </td>
+
+                    <td style={{ padding: "12px" }}>
+                      ₹
+                      {Number(
+                        order.amount || 0
+                      ).toLocaleString()}
+                    </td>
+
+                    <td style={{ padding: "12px" }}>
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          color:
+                            order.status ===
+                            "Delivered"
+                              ? "green"
+                              : order.status ===
+                                "Shipped"
+                              ? "blue"
+                              : "orange",
+                        }}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }
