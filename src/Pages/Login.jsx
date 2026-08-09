@@ -9,8 +9,8 @@ function Login() {
 
   function handleLogin() {
   if (
-    email === "admin@gmail.com" &&
-    password === "admin123"
+    email === "yashbsonawane2005@gmail.com" &&
+    password === "Yashu@2005"
   ) {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("adminName", "Admin");
