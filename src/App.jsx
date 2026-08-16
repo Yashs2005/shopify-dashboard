@@ -18,7 +18,7 @@ import Login from "./Pages/Login";
 import ProductDetails from "./Pages/ProductDetails";
 import Checkout from "./Pages/Checkout";
 
-import iphone16Image from "./assets/iPhone16.jpg";
+import iphone16Image from "./assets/iphone16.jpg";
 import samsungS25Image from "./assets/Samsungs25.webp";
 
 function App() {
