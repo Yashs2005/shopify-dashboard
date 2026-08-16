@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import iphone16Image from "../assets/Iphone16.jpg";
+import iphone16Image from "../assets/iphone16.jpg";
 import samsungS25Image from "../assets/Samsungs25.webp";
 
 function Products({ products, setProducts, loading }) {
