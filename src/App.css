@@ -45,7 +45,10 @@ body {
 .sidebar {
   width: 240px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #008060, #005f46);
+
+  /* NEW SIDEBAR BACKGROUND */
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+
   color: white;
   padding: 20px;
   border-radius: 15px;
@@ -56,6 +59,7 @@ body {
 .sidebar h2 {
   text-align: center;
   margin-bottom: 30px;
+  color: #ffffff;
 }
 
 .sidebar ul {
@@ -72,9 +76,26 @@ body {
   transition: 0.3s;
 }
 
+/* SIDEBAR MENU TEXT */
+.sidebar li a {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+
+/* SIDEBAR HOVER */
 .sidebar li:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.18);
   transform: translateX(5px);
+}
+
+.sidebar li:hover a {
+  color: #ffffff;
+}
+
+.sidebar button {
+  color: #ffffff;
 }
 
 .content {
@@ -279,10 +300,13 @@ img {
   color: white;
 }
 
+/* DARK MODE SIDEBAR */
 .dark .sidebar {
-  background: #1e1e1e;
+  background: linear-gradient(180deg, #111827, #020617);
+  color: white;
 }
 
+/* DARK MODE HEADER */
 .dark .header {
   background-color: #222;
 }
@@ -296,19 +320,61 @@ img {
   color: white;
 }
 
+
+/* =========================
+   DARK MODE - PRODUCTS TEXT
+========================= */
+
+/* Page headings and normal text */
+.dark .content h1,
+.dark .content h2,
+.dark .content h3,
+.dark .content p,
+.dark .content span {
+  color: white;
+}
+
+/* Products table */
 .dark table {
   background: #1e1e1e;
   color: white;
 }
 
-.dark td {
+.dark table td {
+  color: white;
   border-bottom: 1px solid #444;
 }
 
+/* Product name link */
+.dark table td a {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dark table td a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* No Image text */
+.dark table td span {
+  color: white;
+}
+
+/* Pagination text */
+.dark .content > div span {
+  color: white;
+}
+
+
+/* DARK MODE TABLE HOVER */
 .dark tr:hover {
   background: #2a2a2a;
 }
 
+
+/* DARK MODE INPUTS */
 .dark input,
 .dark select {
   background-color: #333;
@@ -316,9 +382,34 @@ img {
   border: 1px solid #555;
 }
 
+.dark input::placeholder {
+  color: #bbbbbb;
+}
+
+.dark select option {
+  background: #333;
+  color: white;
+}
+
+
+/* DARK MODE BUTTONS */
 .dark button {
   background-color: #008060;
   color: white;
+}
+
+.dark button:hover {
+  background-color: #00664d;
+}
+
+
+/* DARK MODE SIDEBAR LINKS */
+.dark .sidebar li a {
+  color: #ffffff;
+}
+
+.dark .sidebar li:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 
@@ -511,4 +602,621 @@ img {
     font-size: 17px;
   }
 
+}
+/* =========================
+   CUSTOMER VIEW LIGHT MODE
+========================= */
+
+.customer-view {
+  background: #f3f3f3;
+  color: #222;
+}
+
+.customer-header {
+  background: #131921;
+  color: white;
+}
+
+.customer-product-card {
+  background: white;
+  color: #222;
+}
+
+.customer-product-name {
+  color: #222;
+}
+
+.customer-rating {
+  color: #222;
+}
+
+.customer-rating span {
+  color: #666;
+}
+
+.customer-price {
+  color: #222;
+}
+
+.customer-unit {
+  color: #666;
+}
+
+.customer-order-card {
+  background: white;
+  color: #222;
+}
+
+
+/* =========================
+   CUSTOMER VIEW DARK MODE
+========================= */
+
+.dark .customer-view {
+  background: #121212;
+  color: white;
+}
+
+.dark .customer-header {
+  background: #1e293b;
+  color: white;
+}
+
+.dark .customer-product-card {
+  background: #1e1e1e;
+  color: white;
+  border: 1px solid #444;
+}
+
+.dark .customer-product-name {
+  color: white;
+}
+
+.dark .customer-rating {
+  color: white;
+}
+
+.dark .customer-rating span {
+  color: #bbbbbb;
+}
+
+.dark .customer-price {
+  color: white;
+}
+
+.dark .customer-unit {
+  color: #bbbbbb;
+}
+
+.dark .customer-order-card {
+  background: #1e1e1e;
+  color: white;
+  border-color: #444;
+}
+
+.dark .customer-order-card h3,
+.dark .customer-order-card p,
+.dark .customer-order-card strong {
+  color: white;
+}
+
+.dark .customer-view h2 {
+  color: white;
+}
+/* =========================
+   DARK MODE - ALL BUTTON TEXT
+========================= */
+
+/* Normal buttons */
+.dark button {
+  color: #ffffff;
+}
+
+/* Buttons with white background */
+.dark button[style*="background: white"],
+.dark button[style*="background:white"] {
+  color: #111111 !important;
+}
+
+/* Customer View buttons */
+.dark .customer-view button {
+  color: #111111;
+}
+
+/* Green button */
+.dark .customer-view button[style*="#2e7d32"] {
+  color: #ffffff !important;
+}
+
+/* Disabled buttons */
+.dark button:disabled {
+  color: #eeeeee !important;
+  opacity: 0.85;
+}
+
+/* Sidebar buttons */
+.dark .sidebar button {
+  color: #ffffff !important;
+}
+
+/* Logout button */
+.dark .logout-btn {
+  color: #ffffff !important;
+}
+/* =========================
+   DASHBOARD DARK MODE
+========================= */
+
+.dashboard-page {
+  background: #f3f3f3;
+  color: #222;
+}
+
+.dark .dashboard-page {
+  background: #121212;
+  color: #ffffff;
+}
+
+.dashboard-card,
+.dashboard-section {
+  background: white;
+  color: #222;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dark .dashboard-card,
+.dark .dashboard-section {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+.dashboard-card h2,
+.dashboard-card p {
+  color: inherit;
+}
+
+.dark .dashboard-section h2,
+.dark .dashboard-section p,
+.dark .dashboard-section td {
+  color: #ffffff;
+}
+
+.dark .dashboard-section input {
+  background: #333;
+  color: #ffffff;
+  border-color: #555;
+}
+
+.dark .dashboard-section input::placeholder {
+  color: #bbbbbb;
+}
+
+.dark .dashboard-section table {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark .dashboard-section tbody tr {
+  background: #1e1e1e;
+  color: #ffffff;
+  border-bottom-color: #444 !important;
+}
+
+.dark .dashboard-section tbody tr:hover {
+  background: #2a2a2a;
+}
+
+.dark .dashboard-section a {
+  color: #66b3ff;
+}
+
+.dashboard-notifications {
+  background: #fff3cd;
+  color: #222;
+}
+
+.dark .dashboard-notifications {
+  background: #3b3218;
+  color: #ffffff;
+}
+
+.dark .low-stock-section {
+  background: #2b1b1b;
+  color: #ffffff;
+}
+
+/* Recharts dark mode */
+.dark .dashboard-section .recharts-cartesian-axis-tick-value {
+  fill: #ffffff;
+}
+
+.dark .dashboard-section .recharts-text {
+  fill: #ffffff;
+}
+
+.dark .dashboard-section .recharts-cartesian-grid line {
+  stroke: #555;
+}
+/* =========================
+   DARK MODE - PRODUCTS PAGE
+========================= */
+
+.dark .content h1,
+.dark .content h2,
+.dark .content h3,
+.dark .content p,
+.dark .content span,
+.dark .content td,
+.dark .content label {
+  color: white;
+}
+
+/* Product table */
+.dark table {
+  background: #1e1e1e;
+  color: white;
+}
+
+.dark table td {
+  color: white;
+  background: #1e1e1e;
+}
+
+.dark table th {
+  background: #008060;
+  color: white;
+}
+
+/* Product name links */
+.dark table td a {
+  color: #66b3ff;
+}
+
+.dark table td a:hover {
+  color: #9cccff;
+}
+
+/* Inputs */
+.dark input,
+.dark select {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+.dark input::placeholder {
+  color: #ccc;
+}
+
+/* Select options */
+.dark select option {
+  background: #333;
+  color: white;
+}
+
+/* Edit section */
+.dark .content input {
+  color: white;
+}
+
+/* Pagination text */
+.dark .content button + span {
+  color: white;
+}
+
+/* No image text */
+.dark .content span {
+  color: white;
+}
+
+/* Keep stock colors visible */
+.dark td span[style*="green"] {
+  color: #4ade80 !important;
+}
+
+.dark td span[style*="red"] {
+  color: #ff5252 !important;
+}
+/* =========================
+   DARK MODE - ORDERS PAGE
+========================= */
+
+.dark .content h1,
+.dark .content h2,
+.dark .content h3,
+.dark .content p,
+.dark .content td,
+.dark .content span {
+  color: white;
+}
+
+/* Orders table */
+.dark .content table {
+  background: #1e1e1e;
+  color: white;
+}
+
+.dark .content table td {
+  background: #1e1e1e;
+  color: white;
+  border-bottom: 1px solid #444 !important;
+}
+
+.dark .content table th {
+  background: #131921;
+  color: white;
+}
+
+/* Search */
+.dark .content input {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+.dark .content input::placeholder {
+  color: #ccc;
+}
+
+/* Filter */
+.dark .content select {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+.dark .content select option {
+  background: #333;
+  color: white;
+}
+
+/* No orders box */
+.dark .content div[style*="background: white"] {
+  color: white;
+}
+
+/* Pagination */
+.dark .content button:disabled {
+  background: #555;
+  color: #aaa;
+}
+
+.dark .content button {
+  color: white;
+}
+
+/* Completed text */
+.dark .content span[style*="green"] {
+  color: #4ade80 !important;
+}
+/* =========================
+   DARK MODE - CUSTOMERS PAGE
+========================= */
+
+.dark .content h1,
+.dark .content h2,
+.dark .content h3,
+.dark .content p,
+.dark .content td,
+.dark .content span,
+.dark .content strong {
+  color: white;
+}
+
+/* Customer cards and sections */
+.dark .content div[style*="background: white"] {
+  color: white;
+}
+
+/* Search input */
+.dark .content input {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+.dark .content input::placeholder {
+  color: #ccc;
+}
+
+/* Customer table */
+.dark .content table {
+  background: #1e1e1e;
+  color: white;
+}
+
+.dark .content table td {
+  background: #1e1e1e;
+  color: white;
+  border-bottom: 1px solid #444 !important;
+}
+
+.dark .content table th {
+  background: #131921;
+  color: white;
+}
+
+/* Active / Inactive status */
+.dark .content span[style*="green"] {
+  color: #4ade80 !important;
+}
+
+.dark .content span[style*="#b00020"] {
+  color: #ff6b6b !important;
+}
+
+/* Footer */
+.dark .content {
+  color: white;
+}
+/* =========================
+   CUSTOMERS DARK MODE - FINAL FIX
+========================= */
+
+.dark .content {
+  color: #ffffff;
+}
+
+/* Customer page background */
+.dark .content > div {
+  color: #ffffff;
+}
+
+/* All headings and normal text */
+.dark .content h1,
+.dark .content h2,
+.dark .content h3,
+.dark .content p,
+.dark .content td,
+.dark .content th,
+.dark .content strong {
+  color: #ffffff;
+}
+
+/* White cards */
+.dark .content div[style*="background: white"],
+.dark .content div[style*="background: \"white\""] {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+/* Card text */
+.dark .content div[style*="background: white"] p,
+.dark .content div[style*="background: white"] h2,
+.dark .content div[style*="background: white"] h3 {
+  color: #ffffff !important;
+}
+
+/* Search box */
+.dark .content input {
+  background: #333333 !important;
+  color: #ffffff !important;
+  border: 1px solid #777 !important;
+}
+
+.dark .content input::placeholder {
+  color: #cccccc !important;
+}
+
+/* Table */
+.dark .content table {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.dark .content table tbody tr {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.dark .content table tbody td {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid #444 !important;
+}
+
+.dark .content table thead th {
+  background: #131921 !important;
+  color: #ffffff !important;
+}
+
+/* Customer names */
+.dark .content table td {
+  color: #ffffff !important;
+}
+
+/* Status */
+.dark .content span {
+  color: #ffffff;
+}
+
+/* Active status */
+.dark .content span[style*="green"] {
+  color: #4ade80 !important;
+}
+
+/* Inactive status */
+.dark .content span[style*="#b00020"] {
+  color: #ff6b6b !important;
+}
+
+/* Footer */
+.dark .content > div:last-child {
+  color: #cccccc !important;
+}
+
+.dark .content > div:last-child strong {
+  color: #ffffff !important;
+}
+.dark .content {
+  color: #ffffff !important;
+}
+
+.dark .content div:last-child,
+.dark .content div:last-child *,
+.dark .content div:last-child strong {
+  color: #ffffff !important;
+}
+:root {
+  --text-color: #222;
+}
+
+.dark {
+  --text-color: #ffffff;
+}
+.customers-footer {
+  margin-top: 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+.customers-footer strong {
+  color: #222;
+}
+
+.dark .customers-footer {
+  color: #ffffff !important;
+}
+
+.dark .customers-footer strong {
+  color: #ffffff !important;
+}
+/* =========================
+   VIEW PRODUCT BUTTON - FINAL
+========================= */
+
+.customer-view .view-product-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border: 2px solid #888888 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  font-weight: 500 !important;
+}
+
+.dark .customer-view .view-product-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border: 2px solid #888888 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  font-weight: 500 !important;
+}
+/* ANALYTICS - AVERAGE ORDER VALUE CARD */
+
+.dark .page .card:nth-child(5) {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+.dark .page .card:nth-child(5) h3,
+.dark .page .card:nth-child(5) h2 {
+  color: #ffffff !important;
 }

@@ -16,7 +16,6 @@ function Dashboard({ products, loading }) {
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState([]);
 
-  // Load real orders
   useEffect(() => {
     const savedOrders =
       JSON.parse(localStorage.getItem("orders")) || [];
@@ -26,15 +25,17 @@ function Dashboard({ products, loading }) {
 
   if (loading) {
     return (
-      <div style={{ padding: "30px" }}>
+      <div
+        className="dashboard-page"
+        style={{
+          padding: "30px",
+          minHeight: "100vh",
+        }}
+      >
         <h2>Loading Dashboard...</h2>
       </div>
     );
   }
-
-  // -------------------------
-  // DASHBOARD CALCULATIONS
-  // -------------------------
 
   const totalOrders = orders.length;
 
@@ -54,7 +55,6 @@ function Dashboard({ products, loading }) {
     (product) => Number(product.stock) < 20
   );
 
-  // Customers
   const customers = [
     {
       name: "Rahul Sharma",
@@ -72,16 +72,11 @@ function Dashboard({ products, loading }) {
 
   const totalCustomers = customers.length;
 
-  // Search products
   const filteredProducts = products.filter((product) =>
     product.name
       .toLowerCase()
       .includes(search.toLowerCase())
   );
-
-  // -------------------------
-  // SALES DATA
-  // -------------------------
 
   const salesData = [
     { name: "Jan", sales: 4000 },
@@ -92,10 +87,6 @@ function Dashboard({ products, loading }) {
     { name: "Jun", sales: 5500 },
   ];
 
-  // -------------------------
-  // NOTIFICATIONS
-  // -------------------------
-
   const notifications = [
     `📦 ${lowStockProducts.length} products are low in stock`,
     `🛒 ${totalOrders} total orders received`,
@@ -105,9 +96,9 @@ function Dashboard({ products, loading }) {
 
   return (
     <div
+      className="dashboard-page"
       style={{
         padding: "25px",
-        background: "#f3f3f3",
         minHeight: "100vh",
       }}
     >
@@ -142,8 +133,8 @@ function Dashboard({ products, loading }) {
       <h2>🔔 Notifications</h2>
 
       <div
+        className="dashboard-notifications"
         style={{
-          background: "#fff3cd",
           padding: "18px",
           borderRadius: "10px",
           marginBottom: "25px",
@@ -174,60 +165,28 @@ function Dashboard({ products, loading }) {
       >
         {/* PRODUCTS */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>📦 Total Products</p>
           <h2>{products.length}</h2>
         </div>
 
         {/* ORDERS */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>🛒 Total Orders</p>
           <h2>{totalOrders}</h2>
         </div>
 
         {/* CUSTOMERS */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>👥 Customers</p>
           <h2>{totalCustomers}</h2>
         </div>
 
         {/* REVENUE */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>💰 Revenue</p>
           <h2>
             ₹{totalRevenue.toLocaleString()}
@@ -236,30 +195,14 @@ function Dashboard({ products, loading }) {
 
         {/* STOCK */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>📦 Total Stock</p>
           <h2>{totalStock}</h2>
         </div>
 
         {/* LOW STOCK */}
 
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "12px",
-            boxShadow:
-              "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
+        <div className="dashboard-card">
           <p>⚠️ Low Stock</p>
 
           <h2
@@ -277,14 +220,7 @@ function Dashboard({ products, loading }) {
 
       {/* SEARCH */}
 
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="dashboard-section">
         <input
           type="text"
           placeholder="🔍 Search Product..."
@@ -349,15 +285,7 @@ function Dashboard({ products, loading }) {
 
       {/* RECENT PRODUCTS */}
 
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px",
-          marginBottom: "30px",
-          overflowX: "auto",
-        }}
-      >
+      <div className="dashboard-section">
         <div
           style={{
             display: "flex",
@@ -490,16 +418,7 @@ function Dashboard({ products, loading }) {
       {/* LOW STOCK */}
 
       {lowStockProducts.length > 0 && (
-        <div
-          style={{
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "12px",
-            marginBottom: "30px",
-            borderLeft:
-              "5px solid #d32f2f",
-          }}
-        >
+        <div className="dashboard-section low-stock-section">
           <h2>⚠️ Low Stock Alert</h2>
 
           {lowStockProducts.map(
@@ -515,14 +434,7 @@ function Dashboard({ products, loading }) {
 
       {/* SALES ANALYTICS */}
 
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px",
-          marginBottom: "30px",
-        }}
-      >
+      <div className="dashboard-section">
         <h2>📈 Sales Analytics</h2>
 
         <div
@@ -557,14 +469,7 @@ function Dashboard({ products, loading }) {
 
       {/* RECENT ACTIVITY */}
 
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px",
-          marginBottom: "30px",
-        }}
-      >
+      <div className="dashboard-section">
         <h2>🕒 Recent Activity</h2>
 
         <p>✅ New product added</p>
@@ -576,14 +481,7 @@ function Dashboard({ products, loading }) {
 
       {/* RECENT ORDERS */}
 
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px",
-          overflowX: "auto",
-        }}
-      >
+      <div className="dashboard-section">
         <h2>🛒 Recent Orders</h2>
 
         {orders.length === 0 ? (

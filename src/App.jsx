@@ -18,12 +18,15 @@ import Login from "./Pages/Login";
 import ProductDetails from "./Pages/ProductDetails";
 import Checkout from "./Pages/Checkout";
 
+import iphone16Image from "./assets/iPhone16.jpg";
+import samsungS25Image from "./assets/Samsungs25.webp";
+
 function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
 
-  // FINAL 30 PRODUCTS DATA
+  // 30 ORIGINAL PRODUCTS
   const productData = [
     {
       id: 1,
@@ -205,91 +208,120 @@ function App() {
       price: 200,
       unit: "1 kg",
     },
+
+    // NEW PRODUCT 31
+    {
+      id: 31,
+      name: "iPhone 16",
+      price: 79999,
+      unit: "1 Piece",
+      image: iphone16Image,
+      stock: 50,
+    },
+
+    // NEW PRODUCT 32
+    {
+      id: 32,
+      name: "Samsung S25",
+      price: 74999,
+      unit: "1 Piece",
+      image: samsungS25Image,
+      stock: 50,
+    },
   ];
 
+  // LOAD 32 PRODUCTS
   useEffect(() => {
     const savedProducts =
       JSON.parse(localStorage.getItem("products")) || [];
 
-    // Agar purane products already saved hain,
-    // unki images + stock rakhenge aur
-    // naye names, prices aur units update karenge.
+    fetch("https://dummyjson.com/products?limit=30")
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedProducts = productData.map((newProduct) => {
+          const oldProduct = savedProducts.find(
+            (product) => product.id === newProduct.id
+          );
 
-    if (savedProducts.length > 0) {
-      const updatedProducts = productData.map((newProduct) => {
-        const oldProduct = savedProducts.find(
-          (product) => product.id === newProduct.id
+          // iPhone and Samsung local images
+          if (newProduct.id === 31 || newProduct.id === 32) {
+            return {
+              ...newProduct,
+              stock:
+                oldProduct?.stock !== undefined
+                  ? oldProduct.stock
+                  : 50,
+            };
+          }
+
+          // Find exact API product by ID
+          const apiProduct = data.products.find(
+            (product) => product.id === newProduct.id
+          );
+
+          return {
+            ...newProduct,
+
+            // Correct image according to product
+            image: apiProduct?.thumbnail || "",
+
+            // Preserve old stock if available
+            stock:
+              oldProduct?.stock !== undefined
+                ? oldProduct.stock
+                : apiProduct?.stock !== undefined
+                ? apiProduct.stock
+                : 50,
+          };
+        });
+
+        setProducts(updatedProducts);
+
+        localStorage.setItem(
+          "products",
+          JSON.stringify(updatedProducts)
         );
 
-        return {
-          ...newProduct,
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("API Error:", error);
 
-          // Purani image rakho
-          image: oldProduct?.image || "",
-
-          // Purana stock rakho
-          stock:
-            oldProduct?.stock !== undefined
-              ? oldProduct.stock
-              : 50,
-        };
-      });
-
-      setProducts(updatedProducts);
-
-      localStorage.setItem(
-        "products",
-        JSON.stringify(updatedProducts)
-      );
-
-      setLoading(false);
-    } else {
-      // First time API se images lene ke liye
-      fetch("https://dummyjson.com/products?limit=30")
-        .then((response) => response.json())
-        .then((data) => {
-          const updatedProducts = productData.map(
-            (newProduct) => {
-              const apiProduct = data.products.find(
-                (product) =>
-                  product.id === newProduct.id
-              );
-
-              return {
-                ...newProduct,
-                image: apiProduct?.thumbnail || "",
-                stock: apiProduct?.stock || 50,
-              };
-            }
+        // API fail hone par saved images use karo
+        const fallbackProducts = productData.map((product) => {
+          const oldProduct = savedProducts.find(
+            (old) => old.id === product.id
           );
 
-          setProducts(updatedProducts);
+          return {
+            ...product,
 
-          localStorage.setItem(
-            "products",
-            JSON.stringify(updatedProducts)
-          );
+            image:
+              product.id === 31
+                ? iphone16Image
+                : product.id === 32
+                ? samsungS25Image
+                : oldProduct?.image || "",
 
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-
-          // Agar internet/API problem ho,
-          // products images ke bina bhi show honge.
-          setProducts(productData);
-
-          localStorage.setItem(
-            "products",
-            JSON.stringify(productData)
-          );
-
-          setLoading(false);
+            stock:
+              oldProduct?.stock !== undefined
+                ? oldProduct.stock
+                : 50,
+          };
         });
-    }
+
+        setProducts(fallbackProducts);
+
+        localStorage.setItem(
+          "products",
+          JSON.stringify(fallbackProducts)
+        );
+
+        setLoading(false);
+      });
   }, []);
 
-  // Products localStorage me save karna
+  // SAVE PRODUCTS TO LOCAL STORAGE
   useEffect(() => {
     if (products.length > 0) {
       localStorage.setItem(
@@ -302,14 +334,12 @@ function App() {
   return (
     <Routes>
       {/* LOGIN */}
-
       <Route
         path="/login"
         element={<Login />}
       />
 
       {/* PROTECTED PAGES */}
-
       <Route
         path="/"
         element={
@@ -322,7 +352,6 @@ function App() {
         }
       >
         {/* DASHBOARD */}
-
         <Route
           index
           element={
@@ -336,7 +365,6 @@ function App() {
         />
 
         {/* PRODUCTS */}
-
         <Route
           path="products"
           element={
@@ -351,7 +379,6 @@ function App() {
         />
 
         {/* CART */}
-
         <Route
           path="cart"
           element={
@@ -362,7 +389,6 @@ function App() {
         />
 
         {/* ORDERS */}
-
         <Route
           path="orders"
           element={
@@ -373,7 +399,6 @@ function App() {
         />
 
         {/* CUSTOMERS */}
-
         <Route
           path="customers"
           element={
@@ -384,7 +409,6 @@ function App() {
         />
 
         {/* CUSTOMER VIEW */}
-
         <Route
           path="customer-view"
           element={
@@ -397,7 +421,6 @@ function App() {
         />
 
         {/* ANALYTICS */}
-
         <Route
           path="analytics"
           element={
@@ -408,7 +431,6 @@ function App() {
         />
 
         {/* SETTINGS */}
-
         <Route
           path="settings"
           element={
@@ -422,7 +444,6 @@ function App() {
         />
 
         {/* PRODUCT DETAILS */}
-
         <Route
           path="product/:id"
           element={
@@ -433,7 +454,6 @@ function App() {
         />
 
         {/* CHECKOUT */}
-
         <Route
           path="checkout"
           element={
@@ -445,7 +465,6 @@ function App() {
       </Route>
 
       {/* 404 */}
-
       <Route
         path="*"
         element={<NotFound />}

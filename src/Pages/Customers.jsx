@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 function Customers() {
+  const { darkMode } = useOutletContext();
   const [customers] = useState([
     {
       id: 1,
@@ -347,22 +349,30 @@ function Customers() {
         </table>
       </div>
 
-      {/* FOOTER */}
+{/* FOOTER */}
 
-      <div
-        style={{
-          marginTop: "20px",
-          color: "#666",
-        }}
-      >
-        Showing{" "}
-        <strong>
-          {filteredCustomers.length}
-        </strong>{" "}
-        of{" "}
-        <strong>{totalCustomers}</strong>{" "}
-        customers
-      </div>
+<div
+  style={{
+    marginTop: "20px",
+    padding: "15px 20px",
+    color: darkMode ? "#ffffff" : "#222222",
+    background: darkMode ? "#1e1e1e" : "#f3f3f3",
+    fontSize: "16px",
+    fontWeight: "normal",
+    textAlign: "left",
+    borderRadius: "8px",
+  }}
+>
+  Showing{" "}
+  <strong style={{ color: darkMode ? "#ffffff" : "#222222" }}>
+    {filteredCustomers.length}
+  </strong>{" "}
+  of{" "}
+  <strong style={{ color: darkMode ? "#ffffff" : "#222222" }}>
+    {totalCustomers}
+  </strong>{" "}
+  customers
+</div>
     </div>
   );
 }

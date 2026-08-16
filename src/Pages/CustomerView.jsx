@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 function CustomerView({ products }) {
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const savedOrders =
       JSON.parse(localStorage.getItem("orders")) || [];
 
     setOrders(savedOrders);
+
+    const savedCart =
+      JSON.parse(localStorage.getItem("cart")) || [];
+
+    setCartItems(savedCart);
   }, []);
 
   const filteredProducts = products.filter((product) =>
@@ -52,30 +58,31 @@ function CustomerView({ products }) {
       JSON.stringify(updatedCart)
     );
 
+    setCartItems(updatedCart);
+
     alert("🛒 Product Added to Cart!");
   }
 
   return (
     <div
+      className="customer-view"
       style={{
         padding: "20px",
-        background: "#f3f3f3",
         minHeight: "100vh",
       }}
     >
       {/* HEADER */}
 
       <div
+        className="customer-header"
         style={{
-          background: "#131921",
-          color: "white",
           padding: "20px",
           borderRadius: "10px",
           marginBottom: "25px",
         }}
       >
         <h1 style={{ margin: "0 0 15px 0" }}>
-          🛍️ Shopify Store
+          🛍️ NexaCart
         </h1>
 
         <input
@@ -109,8 +116,8 @@ function CustomerView({ products }) {
         {filteredProducts.map((product) => (
           <div
             key={product.id}
+            className="customer-product-card"
             style={{
-              background: "white",
               borderRadius: "10px",
               padding: "15px",
               boxShadow:
@@ -123,7 +130,6 @@ function CustomerView({ products }) {
               to={`/product/${product.id}`}
               style={{
                 textDecoration: "none",
-                color: "inherit",
               }}
             >
               <img
@@ -137,6 +143,7 @@ function CustomerView({ products }) {
               />
 
               <h3
+                className="customer-product-name"
                 style={{
                   minHeight: "50px",
                   marginBottom: "8px",
@@ -148,11 +155,12 @@ function CustomerView({ products }) {
 
             {/* RATING */}
 
-            <p style={{ margin: "5px 0" }}>
+            <p
+              className="customer-rating"
+              style={{ margin: "5px 0" }}
+            >
               ⭐⭐⭐⭐⭐{" "}
-              <span style={{ color: "#666" }}>
-                (4.5)
-              </span>
+              <span>(4.5)</span>
             </p>
 
             {/* PRICE + UNIT */}
@@ -163,6 +171,7 @@ function CustomerView({ products }) {
               }}
             >
               <span
+                className="customer-price"
                 style={{
                   fontSize: "24px",
                   fontWeight: "bold",
@@ -172,9 +181,9 @@ function CustomerView({ products }) {
               </span>
 
               <span
+                className="customer-unit"
                 style={{
                   fontSize: "15px",
-                  color: "#666",
                   marginLeft: "8px",
                 }}
               >
@@ -200,14 +209,19 @@ function CustomerView({ products }) {
 
             {/* VIEW PRODUCT */}
 
-            <Link to={`/product/${product.id}`}>
+            <Link
+              to={`/product/${product.id}`}
+              style={{
+                textDecoration: "none",
+              }}
+            >
               <button
+                className="view-product-btn"
                 style={{
                   width: "100%",
                   padding: "10px",
                   border: "1px solid #888",
                   borderRadius: "6px",
-                  background: "white",
                   cursor: "pointer",
                   marginBottom: "8px",
                 }}
@@ -230,6 +244,7 @@ function CustomerView({ products }) {
                   product.stock > 0
                     ? "#ffd814"
                     : "#ccc",
+                color: "black",
                 cursor:
                   product.stock > 0
                     ? "pointer"
@@ -240,6 +255,35 @@ function CustomerView({ products }) {
             >
               🛒 Add to Cart
             </button>
+
+            {/* GO TO CART */}
+
+            {cartItems.some(
+              (item) => item.id === product.id
+            ) && (
+              <Link
+                to="/cart"
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <button
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    border: "none",
+                    borderRadius: "6px",
+                    background: "#2e7d32",
+                    color: "white",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    marginBottom: "8px",
+                  }}
+                >
+                  🛒 Go to Cart
+                </button>
+              </Link>
+            )}
 
             {/* BUY NOW */}
 
@@ -277,13 +321,16 @@ function CustomerView({ products }) {
 
       {/* MY ORDERS */}
 
-      <div style={{ marginTop: "45px" }}>
+      <div
+        className="customer-orders"
+        style={{ marginTop: "45px" }}
+      >
         <h2>📦 My Orders</h2>
 
         {orders.length === 0 ? (
           <div
+            className="customer-order-card"
             style={{
-              background: "white",
               padding: "20px",
               borderRadius: "10px",
             }}
@@ -294,8 +341,8 @@ function CustomerView({ products }) {
           orders.map((order) => (
             <div
               key={order.id}
+              className="customer-order-card"
               style={{
-                background: "white",
                 border: "1px solid #ddd",
                 padding: "15px",
                 marginBottom: "15px",

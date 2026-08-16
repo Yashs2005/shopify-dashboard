@@ -159,7 +159,7 @@ function Layout({ darkMode, setDarkMode }) {
         </aside>
 
         <main className="content">
-          <Outlet />
+          <Outlet context={{ darkMode }} />
         </main>
       </div>
     </div>
